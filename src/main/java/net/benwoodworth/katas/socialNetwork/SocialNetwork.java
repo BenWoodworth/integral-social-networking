@@ -10,10 +10,10 @@ public final class SocialNetwork {
     }
 
     public void publish(User user, String message) {
-        getProfile(user).posts.add(new Post(message));
+        getProfile(user).posts.add(new Post(null, message));
     }
 
-    public List<Post> viewTimeline(User alice) {
+    public List<Post> viewTimeline(User viewer, User alice) {
         var timeline = new ArrayList<>(getProfile(alice).posts);
         Collections.reverse(timeline);
         return timeline;

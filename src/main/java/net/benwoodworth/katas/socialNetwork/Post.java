@@ -1,10 +1,18 @@
 package net.benwoodworth.katas.socialNetwork;
 
+import java.util.Objects;
+
 public final class Post {
+    private final User user;
     private final String message;
 
-    public Post(String message) {
+    public Post(User user, String message) {
+        this.user = user;
         this.message = message;
+    }
+
+    public User getUser() {
+        return user;
     }
 
     public String getMessage() {
@@ -17,18 +25,19 @@ public final class Post {
         if (!(o instanceof Post)) return false;
 
         Post post = (Post) o;
-        return message.equals(post.message);
+        return user.equals(post.user) && message.equals(post.message);
     }
 
     @Override
     public int hashCode() {
-        return message.hashCode();
+        return Objects.hash(user, message);
     }
 
     @Override
     public String toString() {
         return "Post{" +
-                "message='" + message + '\'' +
+                "user=" + user +
+                ", message='" + message + '\'' +
                 '}';
     }
 }
