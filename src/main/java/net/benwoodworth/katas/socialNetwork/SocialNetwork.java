@@ -19,6 +19,14 @@ public final class SocialNetwork {
         return timeline;
     }
 
+    public void follow(User user, User toFollow) {
+        // TODO
+    }
+
+    public List<Post> viewWall(User user) {
+        return null; // TODO
+    }
+
     private static class Profile {
         final List<Post> posts = new ArrayList<>();
     }
