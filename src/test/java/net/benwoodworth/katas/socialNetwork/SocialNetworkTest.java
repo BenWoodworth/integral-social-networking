@@ -31,7 +31,7 @@ class SocialNetworkTest {
 
         // Then
         var expectedTimeline = List.of(
-                new Post(alice, "I love the weather today.")
+                new Post(alice, "I love the weather today.", null)
         );
         assertEquals(expectedTimeline, timeline);
     }
@@ -49,8 +49,8 @@ class SocialNetworkTest {
 
         // Then
         var expectedTimeline = List.of(
-                new Post(bob, "Good game though."),
-                new Post(bob, "Darn! We lost!")
+                new Post(bob, "Good game though.", null),
+                new Post(bob, "Darn! We lost!", null)
         );
         assertEquals(expectedTimeline, timeline);
     }
@@ -72,10 +72,10 @@ class SocialNetworkTest {
 
         // Then
         var expectedWall = List.of(
-                new Post(charlie, "I'm in New York today! Anyone wants to have a coffee?"),
-                new Post(bob, "Good game though."),
-                new Post(bob, "Darn! We lost!"),
-                new Post(alice, "I love the weather today.")
+                new Post(charlie, "I'm in New York today! Anyone wants to have a coffee?", null),
+                new Post(bob, "Good game though.", null),
+                new Post(bob, "Darn! We lost!", null),
+                new Post(alice, "I love the weather today.", null)
         );
         assertEquals(expectedWall, wall);
     }

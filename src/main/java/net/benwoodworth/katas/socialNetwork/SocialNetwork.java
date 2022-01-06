@@ -1,16 +1,18 @@
 package net.benwoodworth.katas.socialNetwork;
 
+import java.time.Instant;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public final class SocialNetwork {
     private final Map<User, Profile> profiles = new HashMap<>();
 
     private Profile getProfile(User user) {
-        return profiles.computeIfAbsent(user, (key) -> new Profile());
+        return profiles.computeIfAbsent(user, Profile::new);
     }
 
     public void publish(User user, String message) {
-        getProfile(user).posts.add(new Post(user, message));
+        getProfile(user).posts.add(new Post(user, message, Instant.now()));
     }
 
     public List<Post> viewTimeline(User viewer, User alice) {
@@ -20,14 +22,22 @@ public final class SocialNetwork {
     }
 
     public void follow(User user, User toFollow) {
-        // TODO
+        getProfile(user).followedUsers.add(toFollow);
     }
 
     public List<Post> viewWall(User user) {
-        return null; // TODO
+        return getProfile(user).followedUsers.stream() // Get followed users
+                .flatMap(u -> getProfile(u).posts.stream()) // Get their posts
+                .sorted(Comparator.comparing(Post::getTime).reversed()) // Sort by newest
+                .collect(Collectors.toList());
     }
 
     private static class Profile {
         final List<Post> posts = new ArrayList<>();
+        final Set<User> followedUsers = new HashSet<>();
+
+        Profile(User user) {
+            followedUsers.add(user); // Users follow themselves, so their wall shows their own posts
+        }
     }
 }

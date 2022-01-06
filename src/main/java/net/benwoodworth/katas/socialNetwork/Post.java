@@ -1,14 +1,17 @@
 package net.benwoodworth.katas.socialNetwork;
 
+import java.time.Instant;
 import java.util.Objects;
 
 public final class Post {
     private final User user;
     private final String message;
+    private final Instant time;
 
-    public Post(User user, String message) {
+    public Post(User user, String message, Instant time) {
         this.user = user;
         this.message = message;
+        this.time = time;
     }
 
     public User getUser() {
@@ -19,18 +22,23 @@ public final class Post {
         return message;
     }
 
+    public Instant getTime() {
+        return time;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Post)) return false;
 
         Post post = (Post) o;
-        return user.equals(post.user) && message.equals(post.message);
+
+        return user.equals(post.user) && message.equals(post.message) /*&& time.equals(post.time)*/; // TODO Compare times
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(user, message);
+        return Objects.hash(user, message/*, time*/);
     }
 
     @Override
@@ -38,6 +46,7 @@ public final class Post {
         return "Post{" +
                 "user=" + user +
                 ", message='" + message + '\'' +
+                ", time=" + time +
                 '}';
     }
 }
