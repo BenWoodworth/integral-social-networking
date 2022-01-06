@@ -10,7 +10,7 @@ public final class SocialNetwork {
     }
 
     public void publish(User user, String message) {
-        getProfile(user).posts.add(new Post(null, message));
+        getProfile(user).posts.add(new Post(user, message));
     }
 
     public List<Post> viewTimeline(User viewer, User alice) {

@@ -30,7 +30,7 @@ class SocialNetworkTest {
 
         // Then
         var expectedTimeline = List.of(
-                new Post(null, "I love the weather today.")
+                new Post(alice, "I love the weather today.")
         );
         assertEquals(expectedTimeline, timeline);
     }
