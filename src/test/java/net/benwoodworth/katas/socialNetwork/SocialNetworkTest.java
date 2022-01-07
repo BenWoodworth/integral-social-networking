@@ -39,9 +39,10 @@ class SocialNetworkTest {
     // TODO Show time elapsed since posted?
     @Test
     @DisplayName("Alice views Bob's timeline.")
-    void testTimeline() {
+    void testTimeline() throws InterruptedException {
         // Given
         socialNetwork.publish(bob, "Darn! We lost!");
+        Thread.sleep(100L);
         socialNetwork.publish(bob, "Good game though.");
 
         // When
@@ -58,11 +59,14 @@ class SocialNetworkTest {
 
     @Test
     @DisplayName("Charlie can follow Alice and Bob, and he views an aggregated list of all timelines.")
-    void testFollowing() {
+    void testFollowing() throws InterruptedException {
         // Given
         socialNetwork.publish(alice, "I love the weather today.");
+        Thread.sleep(100L);
         socialNetwork.publish(bob, "Darn! We lost!");
+        Thread.sleep(100L);
         socialNetwork.publish(bob, "Good game though.");
+        Thread.sleep(100L);
         socialNetwork.publish(charlie, "I'm in New York today! Anyone wants to have a coffee?");
 
         // When
