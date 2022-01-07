@@ -12,6 +12,8 @@ All its methods (`publishMessage`, `viewTimeline`, `follow`, and `viewWall`) acc
 the profiles in order to do what's needed.
 
 ## Building/Testing
+(Requires Java 11 or newer)
+
 Open a terminal and `cd` into this project's directory.
 
 ##### To Build 
