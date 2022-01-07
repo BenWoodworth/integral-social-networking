@@ -1,15 +1,17 @@
 ## Description of Code
 
-The code is simple, with `Post` and `User` classes that just hold data (POJOs, with no business logic),
-and a `SocialNetwork` class with all the business logic.
+Test code can be found [here](./src/test/java/net/benwoodworth/katas/socialNetwork), and the main implementation code [here](./src/main/java/net/benwoodworth/katas/socialNetwork).
 
-`User` only stores the user's name as a `String`.
+The code itself is pretty straightforward, with the `SocialNetwork` class having all the business logic.
+There are also `Post` and `User` classes (POJOs) that just hold data, without any state.
 
-`Post` stores the poster (`User`), a message (`String`), and a time (`Instant`).
+[`User`](./src/main/java/net/benwoodworth/katas/socialNetwork/User.java) only has a name (`String`).
 
-`SocialNetwork` keeps track of user profiles internally (a user's posts, and who they follow).
+[`Post`](./src/main/java/net/benwoodworth/katas/socialNetwork/Post.java) stores the posting user (`User`), a message (`String`), and a time (`Instant`).
+
+[`SocialNetwork`](./src/main/java/net/benwoodworth/katas/socialNetwork/SocialNetwork.java) works by keeping track of user profiles internally (a user's posts, and who they follow).
 All its methods (`publishMessage`, `viewTimeline`, `follow`, and `viewWall`) access or manipulate
-the profiles in order to do what's needed.
+the profiles in order to fulfill the business requirements.
 
 ## Building/Testing
 (Requires Java 11 or newer)
