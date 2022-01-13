@@ -91,4 +91,19 @@ class SocialNetworkTest {
         );
         assertEquals(expectedWall, wall);
     }
+
+    @Test
+    @DisplayName("Alice can follow and unfollow Bob. Alice should not see Bob's timeline")
+    void testUnfollowing() {
+        //Given
+        socialNetwork.follow(alice, bob);
+        socialNetwork.publish(bob, "Good game though.");
+
+        //When
+        socialNetwork.unfollow(alice, bob);
+
+        //Then
+        var wall = socialNetwork.viewWall(alice);
+        assertEquals(List.of(), wall);
+    }
 }

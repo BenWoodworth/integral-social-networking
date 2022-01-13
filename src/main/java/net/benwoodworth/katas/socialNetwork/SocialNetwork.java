@@ -38,6 +38,10 @@ public final class SocialNetwork {
                 .collect(Collectors.toList());
     }
 
+    public void unfollow(User user, User toUnFollow) {
+        getProfile(user).followedUsers.remove(toUnFollow);
+    }
+
     private static class Profile {
         final List<Post> posts = new ArrayList<>();
         final Set<User> followedUsers = new HashSet<>();
