@@ -1,10 +1,16 @@
 package net.benwoodworth.katas.socialNetwork;
 
-import java.time.Instant;
+import java.time.Clock;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public final class SocialNetwork {
+    private final Clock snClock;
+
+    public SocialNetwork(Clock clock) {
+        this.snClock = clock;
+    }
+
     private final Map<User, Profile> profiles = new HashMap<>();
 
     private Profile getProfile(User user) {
@@ -12,7 +18,7 @@ public final class SocialNetwork {
     }
 
     public void publish(User user, String message) {
-        getProfile(user).posts.add(new Post(user, message, Instant.now()));
+        getProfile(user).posts.add(new Post(user, message, snClock.instant()));
     }
 
     public List<Post> viewTimeline(User viewer, User alice) {

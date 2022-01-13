@@ -4,6 +4,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.time.Duration;
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -15,9 +18,14 @@ class SocialNetworkTest {
     private final User bob = new User("Bob");
     private final User charlie = new User("Charlie");
 
+    private MockClock clock;
+    Instant testStartInstant;
+
     @BeforeEach
     void setUp() {
-        socialNetwork = new SocialNetwork();
+        testStartInstant = Instant.now();
+        clock = new MockClock(testStartInstant, ZoneId.systemDefault());
+        socialNetwork = new SocialNetwork(clock);
     }
 
     @Test
@@ -31,7 +39,7 @@ class SocialNetworkTest {
 
         // Then
         var expectedTimeline = List.of(
-                new Post(alice, "I love the weather today.", null)
+                new Post(alice, "I love the weather today.", testStartInstant)
         );
         assertEquals(expectedTimeline, timeline);
     }
@@ -39,10 +47,10 @@ class SocialNetworkTest {
     // TODO Show time elapsed since posted?
     @Test
     @DisplayName("Alice views Bob's timeline.")
-    void testTimeline() throws InterruptedException {
+    void testTimeline()     {
         // Given
         socialNetwork.publish(bob, "Darn! We lost!");
-        Thread.sleep(100L);
+        clock.advance(Duration.ofMinutes(1));
         socialNetwork.publish(bob, "Good game though.");
 
         // When
@@ -50,8 +58,8 @@ class SocialNetworkTest {
 
         // Then
         var expectedTimeline = List.of(
-                new Post(bob, "Good game though.", null),
-                new Post(bob, "Darn! We lost!", null)
+                new Post(bob, "Good game though.", testStartInstant.plus(Duration.ofMinutes(1))),
+                new Post(bob, "Darn! We lost!", testStartInstant)
         );
         assertEquals(expectedTimeline, timeline);
     }
@@ -59,14 +67,14 @@ class SocialNetworkTest {
 
     @Test
     @DisplayName("Charlie can follow Alice and Bob, and he views an aggregated list of all timelines.")
-    void testFollowing() throws InterruptedException {
+    void testFollowing() {
         // Given
         socialNetwork.publish(alice, "I love the weather today.");
-        Thread.sleep(100L);
+        clock.advance(Duration.ofMinutes(1));
         socialNetwork.publish(bob, "Darn! We lost!");
-        Thread.sleep(100L);
+        clock.advance(Duration.ofMinutes(1));
         socialNetwork.publish(bob, "Good game though.");
-        Thread.sleep(100L);
+        clock.advance(Duration.ofMinutes(3));
         socialNetwork.publish(charlie, "I'm in New York today! Anyone wants to have a coffee?");
 
         // When
@@ -76,10 +84,10 @@ class SocialNetworkTest {
 
         // Then
         var expectedWall = List.of(
-                new Post(charlie, "I'm in New York today! Anyone wants to have a coffee?", null),
-                new Post(bob, "Good game though.", null),
-                new Post(bob, "Darn! We lost!", null),
-                new Post(alice, "I love the weather today.", null)
+                new Post(charlie, "I'm in New York today! Anyone wants to have a coffee?", testStartInstant.plus(Duration.ofMinutes(5))),
+                new Post(bob, "Good game though.", testStartInstant.plus(Duration.ofMinutes(2))),
+                new Post(bob, "Darn! We lost!", testStartInstant.plus(Duration.ofMinutes(1))),
+                new Post(alice, "I love the weather today.", testStartInstant)
         );
         assertEquals(expectedWall, wall);
     }

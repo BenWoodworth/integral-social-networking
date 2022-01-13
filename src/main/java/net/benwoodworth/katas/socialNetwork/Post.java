@@ -33,12 +33,12 @@ public final class Post {
 
         Post post = (Post) o;
 
-        return user.equals(post.user) && message.equals(post.message) /*&& time.equals(post.time)*/; // TODO Compare times
+        return user.equals(post.user) && message.equals(post.message) && time.equals(post.time);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(user, message/*, time*/);
+        return Objects.hash(user, message, time);
     }
 
     @Override
